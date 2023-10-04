@@ -143,10 +143,42 @@
       "headingKeywords": {}
     },
     {
-      "src": "team/johndoe.md",
-      "title": "John Doe's Project Portfolio Page",
+      "src": "team/conradsoon.md",
+      "title": "Conrad Soon's Project Portfolio Page",
       "headings": {
-        "project-addressbook-level-3": "Project: AddressBook Level 3"
+        "project-campusconnect": "Project: CampusConnect"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/kokrui.md",
+      "title": "Wong Kok Rui's Project Portfolio Page",
+      "headings": {
+        "project-campusconnect": "Project: CampusConnect"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/limjunxian1.md",
+      "title": "Lim Jun Xian's Project Portfolio Page",
+      "headings": {
+        "project-campusconnect": "Project: CampusConnect"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/lordidiot.md",
+      "title": "Calvin Fong's Project Portfolio Page",
+      "headings": {
+        "project-campusconnect": "Project: CampusConnect"
+      },
+      "headingKeywords": {}
+    },
+    {
+      "src": "team/vn-hao.md",
+      "title": "Nguyen Phu Hao's Project Portfolio Page",
+      "headings": {
+        "project-campusconnect": "Project: CampusConnect"
       },
       "headingKeywords": {}
     },
