@@ -1,0 +1,101 @@
+@startuml
+!include ./style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":EditCommandParser" as EditCommandParser LOGIC_COLOR
+participant ":ParserUtil" as ParserUtil LOGIC_COLOR
+participant "editPersonDescriptor:EditPersonDescriptor" as EditPersonDescriptor LOGIC_COLOR
+participant "editCommand:EditCommand" as EditCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+end box
+
+note left of LogicManager
+let {str} be "1 n/John Cena"
+end note
+
+[-> LogicManager : execute("addalt {str}")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("addalt {str}")
+activate AddressBookParser
+
+create EditCommandParser
+AddressBookParser -> EditCommandParser
+activate EditCommandParser
+
+EditCommandParser --> AddressBookParser
+deactivate EditCommandParser
+
+AddressBookParser -> EditCommandParser : parse("{str}")
+activate EditCommandParser
+
+EditCommandParser -> ParserUtil : parseIndex("1")
+activate ParserUtil
+ParserUtil --> EditCommandParser : index
+deactivate ParserUtil
+
+create EditPersonDescriptor
+EditCommandParser -> EditPersonDescriptor
+activate EditPersonDescriptor
+EditPersonDescriptor --> EditCommandParser
+deactivate EditPersonDescriptor
+
+EditCommandParser -> ParserUtil : parseName("John Cena")
+activate ParserUtil
+ParserUtil --> EditCommandParser : name
+deactivate ParserUtil
+
+EditCommandParser -> EditPersonDescriptor : setName(name)
+activate EditPersonDescriptor
+deactivate EditPersonDescriptor
+
+create EditCommand
+EditCommandParser -> EditCommand : new EditCommand(index, editPersonDescriptor)
+activate EditCommand
+EditCommand --> EditCommandParser : editCommand
+deactivate EditCommand
+
+EditCommandParser --> AddressBookParser : editCommand
+deactivate EditCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+EditCommandParser -[hidden]->
+destroy EditCommandParser
+
+AddressBookParser --> LogicManager : editCommand
+deactivate AddressBookParser
+
+LogicManager -> EditCommand : execute()
+activate EditCommand
+
+EditCommand -> Model : getPerson(1)
+activate Model
+Model --> EditCommand : person
+deactivate Model
+
+EditCommand -> EditCommand : createEditedPerson(person, editPersonDescriptor)
+
+EditCommand -> Model : setPerson(person, editedPerson)
+activate Model
+Model --> EditCommand
+deactivate Model
+
+create CommandResult
+EditCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> EditCommand
+deactivate CommandResult
+
+EditCommand --> LogicManager : result
+deactivate EditCommand
+
+[<--LogicManager
+deactivate LogicManager
+
+@enduml

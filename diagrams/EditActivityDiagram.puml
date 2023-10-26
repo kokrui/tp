@@ -1,0 +1,34 @@
+@startuml
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+!pragma useVerticalIf on
+start
+:User executes edit command;
+:Parse command string;
+
+if () then ([else])
+    :ParseException: Invalid Command Format;
+    stop
+([valid index]) elseif () then ([no attributes edited])
+    :ParseException: No Edits;
+    stop
+([else]) elseif () then ([wrong format for attribute])
+    :ParseException: Constraints;
+    stop
+([else]) elseif () then ([edit empty additional attribute])
+    :CommandException: Use AddAlt Command;
+    stop
+([else]) elseif () then ([same primary and secondary email after edit])
+    :CommandException: Duplicate Email;
+    stop
+([else]) elseif () then ([no change after edit])
+    :CommandException: No Change;
+    stop
+else ([else])
+
+endif
+:Update person in contact list with edited attributes;
+:Show edit person success message;
+
+stop
+@enduml

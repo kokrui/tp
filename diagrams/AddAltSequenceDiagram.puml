@@ -1,0 +1,101 @@
+@startuml
+!include ./style.puml
+
+box Logic LOGIC_COLOR_T1
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
+participant ":AddAltCommandParser" as AddAltCommandParser LOGIC_COLOR
+participant ":ParserUtil" as ParserUtil LOGIC_COLOR
+participant "addAltPersonDescriptor:AddAltPersonDescriptor" as AddAltPersonDescriptor LOGIC_COLOR
+participant "addAltCommand:AddAltCommand" as AddAltCommand LOGIC_COLOR
+participant ":CommandResult" as CommandResult LOGIC_COLOR
+end box
+
+box Model MODEL_COLOR_T1
+participant "model:Model" as Model MODEL_COLOR
+end box
+
+note left of LogicManager
+let {str} be "1 e2/johndoe@hotmail.com"
+end note
+
+[-> LogicManager : execute("addalt {str}")
+activate LogicManager
+
+LogicManager -> AddressBookParser : parseCommand("addalt {str}")
+activate AddressBookParser
+
+create AddAltCommandParser
+AddressBookParser -> AddAltCommandParser
+activate AddAltCommandParser
+
+AddAltCommandParser --> AddressBookParser
+deactivate AddAltCommandParser
+
+AddressBookParser -> AddAltCommandParser : parse("{str}")
+activate AddAltCommandParser
+
+AddAltCommandParser -> ParserUtil : parseIndex("1")
+activate ParserUtil
+ParserUtil --> AddAltCommandParser : index
+deactivate ParserUtil
+
+create AddAltPersonDescriptor
+AddAltCommandParser -> AddAltPersonDescriptor
+activate AddAltPersonDescriptor
+AddAltPersonDescriptor --> AddAltCommandParser
+deactivate AddAltPersonDescriptor
+
+AddAltCommandParser -> ParserUtil : parseEmail("johndoe@hotmail.com")
+activate ParserUtil
+ParserUtil --> AddAltCommandParser : secondaryEmail
+deactivate ParserUtil
+
+AddAltCommandParser -> AddAltPersonDescriptor : setSecondaryEmail(secondaryEmail)
+activate AddAltPersonDescriptor
+deactivate AddAltPersonDescriptor
+
+create AddAltCommand
+AddAltCommandParser -> AddAltCommand : new AddAltCommand(index, addAltPersonDescriptor)
+activate AddAltCommand
+AddAltCommand --> AddAltCommandParser : addAltCommand
+deactivate AddAltCommand
+
+AddAltCommandParser --> AddressBookParser : addAltCommand
+deactivate AddAltCommandParser
+'Hidden arrow to position the destroy marker below the end of the activation bar.
+AddAltCommandParser -[hidden]->
+destroy AddAltCommandParser
+
+AddressBookParser --> LogicManager : addAltCommand
+deactivate AddressBookParser
+
+LogicManager -> AddAltCommand : execute()
+activate AddAltCommand
+
+AddAltCommand -> Model : getPerson(1)
+activate Model
+Model --> AddAltCommand : person
+deactivate Model
+
+AddAltCommand -> AddAltCommand : createAddAltPerson(person, addAltPersonDescriptor)
+
+AddAltCommand -> Model : setPerson(person, addAltPerson)
+activate Model
+Model --> AddAltCommand
+deactivate Model
+
+create CommandResult
+AddAltCommand -> CommandResult
+activate CommandResult
+
+CommandResult --> AddAltCommand
+deactivate CommandResult
+
+AddAltCommand --> LogicManager : result
+deactivate AddAltCommand
+
+[<--LogicManager
+deactivate LogicManager
+
+@enduml
