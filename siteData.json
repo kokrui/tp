@@ -51,8 +51,10 @@
         "storage-component": "Storage component",
         "common-classes": "Common classes",
         "implementation": "Implementation",
+        "notifications-feature": "Notifications feature",
         "addalt-feature": "AddAlt feature",
         "edit-feature": "Edit Feature",
+        "find-feature": "Find feature",
         "proposed-undo-redo-feature": "[Proposed] Undo/redo feature",
         "notes-feature": "Notes feature",
         "user-interface-implementation-for-notes-feature": "User Interface Implementation for Notes Feature",
@@ -144,7 +146,7 @@
       "src": "index.md",
       "title": "",
       "headings": {
-        "addressbook-level-3": "AddressBook Level-3"
+        "campusconnect": "CampusConnect"
       },
       "headingKeywords": {}
     },

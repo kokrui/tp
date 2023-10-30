@@ -1,0 +1,14 @@
+@startuml
+!include ../style.puml
+
+
+class FindExpressionParser {
+  +parseToPredicate(tokens: List<Token>): Predicate<Person>
+}
+
+class Predicate<T> <<interface>> {
+}
+
+FindExpressionParser --> Predicate : produces >
+
+@enduml

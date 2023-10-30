@@ -1,0 +1,129 @@
+@startuml
+
+participant "Client" as C
+participant "FindExpressionParser" as FEP
+participant "TokenList" as TL
+
+C -> FEP : parseToPredicate(tokens)
+activate FEP
+
+note right of FEP
+  Starting with the expression:
+  "n/John && (t/friends || !a/clementi)"
+end note
+
+FEP -> FEP : expression()
+activate FEP
+
+FEP -> FEP : term()
+activate FEP
+
+FEP -> FEP : factor()
+activate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : "n/John"
+deactivate TL
+
+note right of FEP
+  In this next "Token processed",
+  Predicate for "n/John" is formed.
+end note
+
+FEP --> FEP : Token processed
+deactivate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : "&&"
+deactivate TL
+
+FEP -> FEP : factor()
+activate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : "("
+deactivate TL
+
+FEP -> FEP : expression()
+activate FEP
+
+FEP -> FEP : term()
+activate FEP
+
+FEP -> FEP : factor()
+activate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : "t/friends"
+deactivate TL
+
+note right of FEP
+  In this next "Token processed",
+  Predicate for "t/friends" is formed.
+end note
+
+FEP --> FEP : Token processed
+deactivate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : "||"
+deactivate TL
+
+FEP -> FEP : factor()
+activate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : "!a/clementi"
+deactivate TL
+
+note right of FEP
+  In this next "Token processed",
+  Predicate for "!a/clementi" is formed.
+end note
+
+FEP --> FEP : Token processed
+deactivate FEP
+
+note right of FEP
+  In this next "Term processed",
+  predicate for "!a/clementi" is combined with
+  predicate for "t/friends" using "||"
+  to form the compound predicate for the bracketed expression.
+end note
+
+FEP --> FEP : Term processed
+deactivate FEP
+
+FEP -> TL : consume()
+activate TL
+TL --> FEP : ")"
+deactivate TL
+
+note right of FEP
+  In this next "Expression processed",
+  the parenthesized expression is known to
+  be complete.
+end note
+
+FEP --> FEP : Expression processed (for the parenthesis)
+deactivate FEP
+
+note right of FEP
+  In this next "Expression processed",
+  the compound predicate from the parentheses
+  is now combined with "n/John" using "&&"
+  to form the final predicate.
+end note
+
+FEP --> FEP : Expression processed
+deactivate FEP
+
+FEP --> C : Final Predicate
+
+@enduml

@@ -1,0 +1,44 @@
+@startuml
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+participant ":MainApp" as MainApp LOGIC_COLOR
+[-> MainApp : init()
+activate MainApp
+
+MainApp -> MainApp : initEvents()
+activate MainApp
+
+participant "<<class>>\n:EventFactory" as EventFactory LOGIC_COLOR
+
+MainApp -> EventFactory : createEvents(model)
+activate EventFactory
+
+EventFactory -> EventFactory : createBirthdayEvents()
+activate EventFactory
+
+participant ":ModelFactory" as ModelFactory MODEL_COLOR
+EventFactory -> ModelFactory : getFilteredPersonList()
+activate ModelFactory
+
+ModelFactory --> EventFactory : person list
+deactivate ModelFactory
+EventFactory -[hidden]-> EventFactory
+
+
+deactivate EventFactory
+EventFactory --> MainApp : events
+deactivate EventFactory
+
+loop until end iterating event list
+MainApp -> ModelFactory : addEvent
+activate ModelFactory
+deactivate ModelFactory
+end
+
+MainApp --> MainApp
+deactivate MainApp
+MainApp -[hidden]-> MainApp
+[<--MainApp
+deactivate MainApp
+@enduml

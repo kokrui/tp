@@ -1,0 +1,45 @@
+@startuml
+!include ../style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor LOGIC_COLOR_T4
+skinparam classBackgroundColor LOGIC_COLOR
+
+class Person
+
+interface Model {
+  +void addEvent(Event)
+  +List<Event> getEventList()
+}
+
+class Event {
+  -String title
+  -String description
+  -LocalDateTime dateTime
+  -ArrayList<Duration> reminderDeltas
+  +void addMember(Person)
+  +void addReminder(Duration)
+  +Optional<Notification> getNotificationAtTime(LocalDateTime)
+}
+
+class EventFactory {
+  +List<Event> createEvents(Model)
+}
+
+class Notification {
+  -String title
+  -String description
+  +String getTitle
+  +String getDescription
+}
+
+interface Logic {
+  +List<Notification> getLatestNotifications(LocalDateTime)
+}
+
+Event --> "*" Person : has member
+Event ..> Notification
+EventFactory ..> Model
+EventFactory ..> Event
+Model ..> Event
+Logic ..> Notification
+@enduml

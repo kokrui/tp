@@ -1,0 +1,43 @@
+@startuml
+!include ../style.puml
+skinparam ArrowFontStyle plain
+
+participant ":UiManager" as UiManager UI_COLOR
+[-> UiManager : start()
+activate UiManager
+
+participant ":MainWindow" as MainWindow LOGIC_COLOR
+UiManager -> MainWindow : getStartupNotifications()
+activate MainWindow
+
+participant ":LogicManager" as LogicManager LOGIC_COLOR
+MainWindow -> LogicManager : getLatestNotifications(currentTime)
+activate LogicManager
+LogicManager --> MainWindow : notifications
+deactivate LogicManager
+
+participant ":NotificationWindow" as NotificationWindow UI_COLOR
+
+loop until end iterating notifications
+create NotificationWindow
+MainWindow -> NotificationWindow: NotificationWindow(root, ownerStage, notification)
+activate NotificationWindow
+NotificationWindow -[hidden]-> NotificationWindow
+deactivate NotificationWindow
+
+MainWindow -> NotificationWindow: show()
+activate NotificationWindow
+NotificationWindow -[hidden]-> NotificationWindow
+deactivate NotificationWindow
+
+NotificationWindow -[hidden]-> NotificationWindow
+destroy NotificationWindow
+NotificationWindow -[hidden]-> NotificationWindow
+end
+
+MainWindow --> UiManager
+deactivate MainWindow
+UiManager -[hidden]-> UiManager
+[<--UiManager
+deactivate UiManager
+@enduml

@@ -1,0 +1,23 @@
+@startuml
+!include ../style.puml
+
+class FindFilterStringTokenizer {
+  -input: String
+  +tokenize(): List<Token>
+}
+
+class Token {
+  +value: String
+  +type: TokenType
+}
+
+enum TokenType {
+  TERM,
+  OPERATOR,
+  PARENTHESIS
+}
+
+FindFilterStringTokenizer --> Token : produces >
+Token --> TokenType : has >
+
+@enduml
