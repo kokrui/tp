@@ -2,10 +2,10 @@
 !include ../style.puml
 skinparam ArrowFontStyle plain
 
-participant ":UI" as UI
-participant ":FindCommandParser" as FCP
-participant ":FindFilterStringTokenizer" as Tokenizer
-participant ":FindExpressionParser" as Parser
+participant ":UI" as UI UI_COLOR
+participant ":FindCommandParser" as FCP LOGIC_COLOR
+participant ":FindFilterStringTokenizer" as Tokenizer LOGIC_COLOR
+participant ":FindExpressionParser" as Parser LOGIC_COLOR
 
 UI -> FCP: parse("n/Alice && (n/Bob || n/Charlie)")
 activate FCP

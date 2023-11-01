@@ -32,7 +32,7 @@ class Notification {
   +String getDescription
 }
 
-interface Logic {
+interface "<<interface>>\nLogic" as Logic {
   +List<Notification> getLatestNotifications(LocalDateTime)
 }
 

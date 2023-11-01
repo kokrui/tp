@@ -26,7 +26,6 @@ if () then ([else])
     stop
 else ([else])
 
-endif
 :Update person in contact list with edited attributes;
 :Show edit person success message;
 
