@@ -1,0 +1,65 @@
+hide footbox
+
+!define UI_COLOR #1D8900
+!define UI_COLOR_T1 #83E769
+!define UI_COLOR_T2 #3FC71B
+!define UI_COLOR_T3 #166800
+!define UI_COLOR_T4 #0E4100
+
+!define LOGIC_COLOR #3333C4
+!define LOGIC_COLOR_T1 #C8C8FA
+!define LOGIC_COLOR_T2 #6A6ADC
+!define LOGIC_COLOR_T3 #1616B0
+!define LOGIC_COLOR_T4 #101086
+
+!define MODEL_COLOR #9D0012
+!define MODEL_COLOR_T1 #F97181
+!define MODEL_COLOR_T2 #E41F36
+!define MODEL_COLOR_T3 #7B000E
+!define MODEL_COLOR_T4 #51000A
+
+participant ":AddressBookParser" as Parser LOGIC_COLOR
+participant ":AddNoteCommandParser" as CommandParser LOGIC_COLOR_T1
+participant ":ParserUtil" as Util LOGIC_COLOR_T2
+
+Parser -> CommandParser : parse(arguments)
+activate CommandParser
+
+CommandParser -> Util : parseIndex(splitArgs[0])
+activate Util
+Util --> CommandParser : index
+deactivate Util
+
+create ":Note" as Note LOGIC_COLOR
+CommandParser -> Note : new Note(splitArgs[1].trim())
+activate Note
+Note --> CommandParser : note
+deactivate Note
+
+create ":Command" as Command LOGIC_COLOR_T1
+CommandParser -> Command : new AddNoteCommand(index, note)
+activate Command
+Command --> CommandParser : command
+deactivate Command
+
+CommandParser --> Parser : command
+deactivate CommandParser
+
+participant ":Model" as Model MODEL_COLOR_T1
+participant ":Person" as Person MODEL_COLOR_T2
+
+Parser -> Command : command.execute(model)
+activate Command
+Command -> Model : getFilteredPersonList()
+activate Model
+Model --> Command : lastShownList
+deactivate Model
+
+Command -> Person : person.addNote(note)
+activate Person
+Person --> Command
+deactivate Person
+
+Parser <-- Command : new CommandResult(MESSAGE_NOTE_SUCCESS)
+deactivate Command
+@enduml
