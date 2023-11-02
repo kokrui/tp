@@ -25,8 +25,6 @@ import seedu.address.model.tag.Tag;
 
 public class FindExpressionParserTest {
 
-    private final FindExpressionParser parser = new FindExpressionParser();
-
     @Test
     public void fromPrefix_invalidPrefix_throwsParseException() {
         assertThrows(ParseException.class, () -> FindExpressionParser.FindSupportedField.createFromPrefix(" "));
@@ -40,7 +38,7 @@ public class FindExpressionParserTest {
 
     @Test
     public void parse_emptyArg_throwsParseException() {
-        assertThrows(ParseException.class, () -> parser.parseToPredicate(new ArrayList<>()));
+        assertThrows(ParseException.class, () -> FindExpressionParser.parseToPredicate(new ArrayList<>()));
     }
 
     @Test
@@ -245,9 +243,7 @@ public class FindExpressionParserTest {
 
     @Test
     public void conditionNodeToPredicate_invalidConditionWithQuotedEmptyKeyword_throwsParseException() {
-        FindExpressionParser parser = new FindExpressionParser();
-
-        assertThrows(ParseException.class, () -> parser.parseToPredicate(
+        assertThrows(ParseException.class, () -> FindExpressionParser.parseToPredicate(
                 List.of(new FindFilterStringTokenizer.Token(
                         FindFilterStringTokenizer.Token.Type.CONDITION, "n/\"\""))
                 )

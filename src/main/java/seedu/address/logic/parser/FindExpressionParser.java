@@ -55,7 +55,7 @@ import seedu.address.model.tag.Tag;
  */
 public class FindExpressionParser {
 
-    private List<Token> tokens;
+    private final List<Token> tokens;
     private int pos = 0;
 
     /**
@@ -65,16 +65,25 @@ public class FindExpressionParser {
      * @param tokens The list of tokens to be parsed.
      * @return The predicate representing the tokens when parsed into an expression tree.
      */
-    public Predicate<Person> parseToPredicate(List<Token> tokens) throws ParseException {
+    public static Predicate<Person> parseToPredicate(List<Token> tokens) throws ParseException {
+        requireNonNull(tokens);
+
         if (tokens.isEmpty()) {
-            throw new ParseException("Expression is empty!");
+            throw new ParseException("Tokens cannot be empty!");
         }
-        this.tokens = tokens;
-        ExprNode completedAst = expression();
-        if (!isAtEnd()) {
+
+        FindExpressionParser parser = new FindExpressionParser(tokens);
+
+        ExprNode completedAst = parser.parseExpression();
+
+        if (!parser.isAtEnd()) {
             throw new ParseException("Find command received an invalid filter string!");
         }
         return completedAst.toPredicate();
+    }
+
+    private FindExpressionParser(List<Token> tokens) {
+        this.tokens = tokens;
     }
 
     /**
@@ -88,12 +97,12 @@ public class FindExpressionParser {
      *
      * @return The parsed expression node.
      */
-    private ExprNode expression() throws ParseException {
-        ExprNode node = term();
+    private ExprNode parseExpression() throws ParseException {
+        ExprNode node = parseTerm();
 
         while (isNextTokenType(Token.Type.OR)) {
             Token op = consume(Token.Type.OR);
-            ExprNode right = term();
+            ExprNode right = parseTerm();
             node = new BinaryOpNode(node, FindExpressionOperator.OR, right);
         }
 
@@ -110,12 +119,12 @@ public class FindExpressionParser {
      *
      * @return The parsed term node.
      */
-    private ExprNode term() throws ParseException {
-        ExprNode node = factor();
+    private ExprNode parseTerm() throws ParseException {
+        ExprNode node = parseFactor();
 
         while (isNextTokenType(Token.Type.AND)) {
             Token op = consume(Token.Type.AND);
-            ExprNode right = factor();
+            ExprNode right = parseFactor();
             node = new BinaryOpNode(node, FindExpressionOperator.AND, right);
         }
 
@@ -131,14 +140,14 @@ public class FindExpressionParser {
      *
      * @return The parsed factor node.
      */
-    private ExprNode factor() throws ParseException {
+    private ExprNode parseFactor() throws ParseException {
         if (isNextTokenType(Token.Type.NOT)) {
             consume(Token.Type.NOT);
-            ExprNode node = factor();
+            ExprNode node = parseFactor();
             return new NotNode(node);
         } else if (isNextTokenType(Token.Type.LPAREN)) {
             consume(Token.Type.LPAREN);
-            ExprNode node = expression();
+            ExprNode node = parseExpression();
             consume(Token.Type.RPAREN);
             return node;
         } else {
