@@ -11,21 +11,11 @@ Class "<<interface>>\nModel" as Model
 Class AddressBook
 Class ModelManager
 Class UserPrefs
-
-Class UniquePersonList
-Class Person
-Class Address
-Class Email
-Class Name
-Class Phone
-Class Tag
-Class Telegram
-Class Linkedin
-Class Birthday
-Class Avatar
-Class Note
-
 Class I #FFFFFF
+Class UniquePersonList
+
+Package Person as Person {
+}
 }
 
 Class HiddenOutside #FFFFFF
@@ -42,23 +32,10 @@ UserPrefs .up.|> ReadOnlyUserPrefs
 
 AddressBook *--> "1" UniquePersonList
 UniquePersonList --> "~* all" Person
-Person *--> "1" Name
-Person *--> "1" Phone
-Person *--> "1..2" Email
-Person *--> "1" Address
-Person *--> "*" Tag
-Person *--> "0..1" Telegram
-Person *--> "0..1" Birthday
-Person *--> "0..1" Linkedin
-Person *--> "1" Avatar
-Person *--> "1" Note
 
 Person -[hidden]up--> I
 UniquePersonList -[hidden]right-> I
 
-Name -[hidden]right-> Phone
-Phone -[hidden]right-> Address
-Address -[hidden]right-> Email
 
 ModelManager --> "~* filtered" Person
 @enduml

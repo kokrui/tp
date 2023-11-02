@@ -2,12 +2,10 @@
 !include ./style.puml
 
 box Logic LOGIC_COLOR_T1
-participant ":LogicManager" as LogicManager LOGIC_COLOR
 participant ":AddressBookParser" as AddressBookParser LOGIC_COLOR
 participant ":EditCommandParser" as EditCommandParser LOGIC_COLOR
-participant ":ParserUtil" as ParserUtil LOGIC_COLOR
-participant "editPersonDescriptor:EditPersonDescriptor" as EditPersonDescriptor LOGIC_COLOR
-participant "editCommand:EditCommand" as EditCommand LOGIC_COLOR
+participant ":EditPersonDescriptor" as EditPersonDescriptor LOGIC_COLOR
+participant ":EditCommand" as EditCommand LOGIC_COLOR
 participant ":CommandResult" as CommandResult LOGIC_COLOR
 end box
 
@@ -15,14 +13,11 @@ box Model MODEL_COLOR_T1
 participant "model:Model" as Model MODEL_COLOR
 end box
 
-note left of LogicManager
+note left of AddressBookParser
 let {str} be "1 n/John Cena"
 end note
 
-[-> LogicManager : execute("addalt {str}")
-activate LogicManager
-
-LogicManager -> AddressBookParser : parseCommand("addalt {str}")
+[-> AddressBookParser : parseCommand("addalt {str}")
 activate AddressBookParser
 
 create EditCommandParser
@@ -35,23 +30,13 @@ deactivate EditCommandParser
 AddressBookParser -> EditCommandParser : parse("{str}")
 activate EditCommandParser
 
-EditCommandParser -> ParserUtil : parseIndex("1")
-activate ParserUtil
-ParserUtil --> EditCommandParser : index
-deactivate ParserUtil
-
 create EditPersonDescriptor
 EditCommandParser -> EditPersonDescriptor
 activate EditPersonDescriptor
 EditPersonDescriptor --> EditCommandParser
 deactivate EditPersonDescriptor
 
-EditCommandParser -> ParserUtil : parseName("John Cena")
-activate ParserUtil
-ParserUtil --> EditCommandParser : name
-deactivate ParserUtil
-
-EditCommandParser -> EditPersonDescriptor : setName(name)
+EditCommandParser -> EditPersonDescriptor : setAttributes()
 activate EditPersonDescriptor
 deactivate EditPersonDescriptor
 
@@ -67,10 +52,10 @@ deactivate EditCommandParser
 EditCommandParser -[hidden]->
 destroy EditCommandParser
 
-AddressBookParser --> LogicManager : editCommand
+[<- AddressBookParser : editCommand
 deactivate AddressBookParser
 
-LogicManager -> EditCommand : execute()
+[-> EditCommand : execute()
 activate EditCommand
 
 EditCommand -> Model : getPerson(1)
@@ -82,7 +67,6 @@ EditCommand -> EditCommand : createEditedPerson(person, editPersonDescriptor)
 
 EditCommand -> Model : setPerson(person, editedPerson)
 activate Model
-Model --> EditCommand
 deactivate Model
 
 create CommandResult
@@ -92,10 +76,8 @@ activate CommandResult
 CommandResult --> EditCommand
 deactivate CommandResult
 
-EditCommand --> LogicManager : result
+[<- EditCommand : result
 deactivate EditCommand
 
-[<--LogicManager
-deactivate LogicManager
 
 @enduml

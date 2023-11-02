@@ -7,27 +7,27 @@ start
 :Parse command string;
 
 if () then ([else])
-    :ParseException: Invalid Command Format;
+    :ParseException: INVALID_COMMAND_FORMAT;
     stop
-([valid index]) elseif () then ([no attributes edited])
-    :ParseException: No Edits;
+([valid command format]) elseif () then ([wrong attribute format])
+    :ParseException: CONSTRAINTS;
     stop
-([else]) elseif () then ([wrong format for attribute])
-    :ParseException: Constraints;
+([else]) elseif () then ([invalid index])
+    :ParseException: INVALID_PERSON_DISPLAYED_INDEX;
     stop
 ([else]) elseif () then ([edit empty additional attribute])
-    :CommandException: Use AddAlt Command;
+    :CommandException: USE_ADDALT_COMMAND;
     stop
 ([else]) elseif () then ([same primary and secondary email after edit])
-    :CommandException: Duplicate Email;
+    :CommandException: DUPLICATE_EMAIL;
     stop
 ([else]) elseif () then ([no change after edit])
-    :CommandException: No Change;
+    :CommandException: NO_CHANGE;
     stop
 else ([else])
-
+endif
 :Update person in contact list with edited attributes;
-:Show edit person success message;
+:Show EDIT_PERSON_SUCCESS message;
 
 stop
 @enduml
