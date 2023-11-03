@@ -1,0 +1,77 @@
+@startuml
+hide footbox
+!define UI_COLOR #1D8900
+!define UI_COLOR_T1 #83E769
+!define UI_COLOR_T2 #3FC71B
+!define UI_COLOR_T3 #166800
+!define UI_COLOR_T4 #0E4100
+
+!define LOGIC_COLOR #3333C4
+!define LOGIC_COLOR_T1 #C8C8FA
+!define LOGIC_COLOR_T2 #6A6ADC
+!define LOGIC_COLOR_T3 #1616B0
+!define LOGIC_COLOR_T4 #101086
+
+!define MODEL_COLOR #9D0012
+!define MODEL_COLOR_T1 #F97181
+!define MODEL_COLOR_T2 #E41F36
+!define MODEL_COLOR_T3 #7B000E
+!define MODEL_COLOR_T4 #51000A
+
+participant ":AddressBookParser" as Parser LOGIC_COLOR
+participant ":UpdatePhotoCommandParser" as CommandParser LOGIC_COLOR_T1
+participant ":ArgumentMultimap" as Tokenizer LOGIC_COLOR_T2
+participant ":UpdatePhotoCommand" as Command LOGIC_COLOR_T1
+
+Parser -> CommandParser : parseCommand(input)
+activate CommandParser
+
+create Tokenizer LOGIC_COLOR
+CommandParser -> Tokenizer : ArgumentTokenizer.tokenize(input, PREFIX_AVATAR)
+activate Tokenizer
+Tokenizer --> CommandParser : commandElements
+deactivate Tokenizer
+CommandParser --> Tokenizer : getPreamble()
+activate Tokenizer
+Tokenizer --> CommandParser : index
+deactivate Tokenizer
+CommandParser --> Tokenizer : getValue(PREFIX_AVATAR)
+activate Tokenizer
+Tokenizer --> CommandParser : photoPath
+deactivate Tokenizer
+
+create Command
+CommandParser -> Command : new UpdatePhotoCommand(Integer.parseInt(index), photoPath.get())
+activate Command
+Command --> CommandParser : command
+deactivate Command
+
+CommandParser --> Parser : command
+deactivate CommandParser
+
+participant ":Model" as Model MODEL_COLOR_T1
+participant ":Person" as Person MODEL_COLOR_T2
+
+Parser -> Command : command.execute(model)
+activate Command
+Command -> Model : model.getFilteredPersonList()
+activate Model
+Model --> Command : lastShownList
+deactivate Model
+
+Command -> Command : copyPerson(personToEdit)
+activate Command
+create Person
+Command --> Person : new Person(...)
+activate Person
+Person --> Command : editedPerson
+deactivate Person
+deactivate Command
+
+Command -> Model :  model.setPerson(personToEdit, editedPerson)
+
+Command -> Model :  model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS)
+
+Parser <-- Command : new CommandResult(MESSAGE_SUCCESS)
+deactivate Command
+@enduml
