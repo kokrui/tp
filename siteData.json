@@ -69,8 +69,15 @@
         "prefix-summary": "Prefix summary",
         "appendix-instructions-for-manual-testing": "Appendix: Instructions for manual testing",
         "launch-and-shutdown": "Launch and shutdown",
+        "adding-a-person": "Adding a person",
+        "adding-alternative-contact-to-a-person": "Adding alternative contact to a person",
+        "editing-a-person": "Editing a person",
         "deleting-a-person": "Deleting a person",
-        "saving-data": "Saving data"
+        "updating-photo-of-a-person": "Updating photo of a person",
+        "adding-note-to-a-person": "Adding note to a person",
+        "paying-money-to-a-person": "Paying money to a person",
+        "owing-money-to-a-person": "Owing money to a person",
+        "finding-a-person": "Finding a person"
       },
       "headingKeywords": {}
     },
@@ -186,9 +193,7 @@
         "contributions-to-the-developer-guide": "Contributions to the Developer Guide",
         "contributions-to-team-based-tasks": "Contributions to Team-Based Tasks",
         "review-mentoring-contributions": "Review / Mentoring Contributions",
-        "contributions-beyond-the-project-team": "Contributions Beyond the Project Team",
-        "contributions-to-the-developer-guide-extracts": "Contributions to the Developer Guide (Extracts)",
-        "contributions-to-the-user-guide-extracts": "Contributions to the User Guide (Extracts)"
+        "contributions-beyond-the-project-team": "Contributions Beyond the Project Team"
       },
       "headingKeywords": {}
     },
@@ -220,9 +225,7 @@
         "contributions-to-the-developer-guide": "Contributions to the Developer Guide",
         "contributions-to-team-based-tasks": "Contributions to Team-Based Tasks",
         "review-mentoring-contributions": "Review / Mentoring Contributions",
-        "contributions-beyond-the-project-team": "Contributions Beyond the Project Team",
-        "contributions-to-the-developer-guide-extracts": "Contributions to the Developer Guide (Extracts)",
-        "contributions-to-the-user-guide-extracts": "Contributions to the User Guide (Extracts)"
+        "contributions-beyond-the-project-team": "Contributions Beyond the Project Team"
       },
       "headingKeywords": {}
     },
@@ -235,12 +238,7 @@
         "code-contributed": "Code Contributed",
         "enhancements-implemented": "Enhancements Implemented",
         "contributions-to-the-user-guide": "Contributions to the User Guide",
-        "contributions-to-the-developer-guide": "Contributions to the Developer Guide",
-        "contributions-to-team-based-tasks": "Contributions to Team-Based Tasks",
-        "review-mentoring-contributions": "Review / Mentoring Contributions",
-        "contributions-beyond-the-project-team": "Contributions Beyond the Project Team",
-        "contributions-to-the-developer-guide-extracts": "Contributions to the Developer Guide (Extracts)",
-        "contributions-to-the-user-guide-extracts": "Contributions to the User Guide (Extracts)"
+        "contributions-to-the-developer-guide": "Contributions to the Developer Guide"
       },
       "headingKeywords": {}
     },
