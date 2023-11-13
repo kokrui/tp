@@ -1,0 +1,36 @@
+@startuml
+skinparam ActivityFontSize 15
+skinparam ArrowFontSize 12
+!pragma useVerticalIf on
+start
+:User executes pay command;
+:Parse command string;
+
+if () then ([else])
+    :ParseException: INVALID_COMMAND_FORMAT;
+    stop
+([valid command format]) elseif () then ([else])
+    :ParseException: MESSAGE_NOT_A_INDEX;
+    stop
+([index is an integer]) elseif () then ([else])
+    :ParseException: MESSAGE_INVALID_INDEX;
+    stop
+([index is a non-zero unsigned integer]) elseif () then ([else])
+    :ParseException: MESSAGE_CONSTRAINTS;
+    stop
+([balance transacted is valid dollar string]) elseif () then ([else])
+    :ParseException: MESSAGE_TRANSACTION_LIMIT_EXCEEDED;
+    stop
+([balance transacted is between 0 - 20000]) elseif () then ([else])
+    :CommandException: MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+    stop
+([index is valid person in displayed list]) elseif () then ([else])
+    :CommandException: MESSAGE_BALANCE_LIMIT_EXCEEDED;
+    stop
+else ([person's balance after transaction within limit])
+endif
+:Record payment of transacted balance to the target person;
+:Show MESSAGE_SUCCESS to user;
+
+stop
+@enduml
