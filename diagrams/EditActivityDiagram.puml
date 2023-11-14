@@ -6,28 +6,34 @@ start
 :User executes edit command;
 :Parse command string;
 
-if () then ([else])
+if () then ([invalid command format])
     :ParseException: INVALID_COMMAND_FORMAT;
     stop
-([valid command format]) elseif () then ([wrong attribute format])
-    :ParseException: CONSTRAINTS;
+([else]) elseif () then ([index not an integer])
+    :ParseException: MESSAGE_NOT_A_INDEX;
     stop
-([else]) elseif () then ([invalid index])
-    :ParseException: INVALID_PERSON_DISPLAYED_INDEX;
+([else]) elseif () then ([index not a non-zero unsigned integer])
+    :ParseException: MESSAGE_INVALID_INDEX;
+    stop
+([else]) elseif () then ([index larger than last index in contact list])
+    :CommandException: MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
+    stop
+([else]) elseif () then ([wrong attribute format])
+    :ParseException: MESSAGE_CONSTRAINTS;
     stop
 ([else]) elseif () then ([edit empty additional attribute])
-    :CommandException: USE_ADDALT_COMMAND;
+    :CommandException: MESSAGE_USE_ADDALT_COMMAND;
     stop
 ([else]) elseif () then ([same primary and secondary email after edit])
-    :CommandException: DUPLICATE_EMAIL;
+    :CommandException: MESSAGE_DUPLICATE_EMAIL;
     stop
 ([else]) elseif () then ([no change after edit])
-    :CommandException: NO_CHANGE;
+    :CommandException: MESSAGE_NO_CHANGE;
     stop
 else ([else])
 endif
 :Update person in contact list with edited attributes;
-:Show EDIT_PERSON_SUCCESS message;
+:Show MESSAGE_EDIT_PERSON_SUCCESS to user;
 
 stop
 @enduml

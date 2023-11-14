@@ -1,0 +1,56 @@
+@startuml
+!include ./style.puml
+
+participant ":FindCommandParser" as FindCommandParser LOGIC_COLOR
+participant ":FindFilterStringTokenizer" as FindFilterStringTokenizer LOGIC_COLOR
+participant ":FindExpressionParser" as FindExpressionParser LOGIC_COLOR
+participant "completedAst:ExprNode" as ExprNode LOGIC_COLOR
+
+note left of FindCommandParser
+  Input: User's find command string
+end note
+
+[-> FindCommandParser : parse(findString)
+activate FindCommandParser
+
+create FindFilterStringTokenizer
+FindCommandParser -> FindFilterStringTokenizer : new(args)
+activate FindFilterStringTokenizer
+FindFilterStringTokenizer --> FindCommandParser : tokenizer
+deactivate FindFilterStringTokenizer
+
+FindCommandParser -> FindFilterStringTokenizer : tokenize()
+activate FindFilterStringTokenizer
+FindFilterStringTokenizer --> FindCommandParser : tokenList
+deactivate FindFilterStringTokenizer
+
+create FindExpressionParser
+FindCommandParser -> FindExpressionParser : new(tokenList)
+activate FindExpressionParser
+FindExpressionParser --> FindCommandParser : parser
+deactivate FindExpressionParser
+
+FindCommandParser -> FindExpressionParser : parseToPredicate()
+activate FindExpressionParser
+FindExpressionParser -> FindExpressionParser : parseExpression()
+activate FindExpressionParser
+create ExprNode
+FindExpressionParser -> ExprNode :
+activate ExprNode
+ExprNode --> FindExpressionParser : completedAst
+deactivate ExprNode
+
+FindExpressionParser -[hidden]-> FindExpressionParser
+deactivate FindExpressionParser
+
+FindExpressionParser -> ExprNode : toPredicate()
+activate ExprNode
+ExprNode --> FindExpressionParser : finalPredicate
+deactivate ExprNode
+
+FindExpressionParser --> FindCommandParser : finalPredicate
+deactivate FindExpressionParser
+
+[<- FindCommandParser : createdFindCommand
+deactivate FindCommandParser
+@enduml

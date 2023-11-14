@@ -52,7 +52,7 @@ deactivate EditCommandParser
 EditCommandParser -[hidden]->
 destroy EditCommandParser
 
-[<- AddressBookParser : editCommand
+[<-- AddressBookParser : editCommand
 deactivate AddressBookParser
 
 [-> EditCommand : execute()
@@ -64,6 +64,8 @@ Model --> EditCommand : person
 deactivate Model
 
 EditCommand -> EditCommand : createEditedPerson(person, editPersonDescriptor)
+activate EditCommand
+deactivate EditCommand
 
 EditCommand -> Model : setPerson(person, editedPerson)
 activate Model
@@ -73,10 +75,10 @@ create CommandResult
 EditCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> EditCommand
+CommandResult --> EditCommand : result
 deactivate CommandResult
 
-[<- EditCommand : result
+[<-- EditCommand : result
 deactivate EditCommand
 
 

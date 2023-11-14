@@ -53,7 +53,7 @@ deactivate AddAltCommandParser
 AddAltCommandParser -[hidden]->
 destroy AddAltCommandParser
 
-[<- AddressBookParser : addAltCommand
+[<-- AddressBookParser : addAltCommand
 deactivate AddressBookParser
 
 [-> AddAltCommand : execute()
@@ -64,6 +64,8 @@ activate Model
 deactivate Model
 
 AddAltCommand -> AddAltCommand : createAddAltPerson(person, addAltPersonDescriptor)
+activate AddAltCommand
+deactivate AddAltCommand
 
 AddAltCommand -> Model : setPerson(person, addAltPerson)
 activate Model
@@ -73,10 +75,10 @@ create CommandResult
 AddAltCommand -> CommandResult
 activate CommandResult
 
-CommandResult --> AddAltCommand
+CommandResult --> AddAltCommand : result
 deactivate CommandResult
 
-[<- AddAltCommand : result
+[<-- AddAltCommand : result
 deactivate AddAltCommand
 
 
