@@ -794,6 +794,6 @@ with(this){return _c('h3',{attrs:{"id":"efficiency-through-reuse"}},[_v("Efficie
 with(this){return _c('ul',[_c('li',[_c('strong',[_v("Extending AB3 Classes")]),_v(": We extended the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("Person")]),_v(" class to incorporate additional data fields crucial for the "),_c('code',{pre:true,attrs:{"class":"hljs inline no-lang"}},[_v("addalt")]),_v(" feature.")]),_v(" "),_c('li',[_c('strong',[_v("DateTime Libraries")]),_v(": We utilized existing DateTime libraries for efficient and correct parsing of time-related data, which improved our development speed as it meant we did not have to write our own date-time parsing code.")])])}
 },function anonymous(
 ) {
-with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.1.0")]),_v(", generated on Tue, 14 Nov 2023, 10:11:56 GMT+8]")])])])}
+with(this){return _c('footer',[_c('div',{staticClass:"text-center"},[_c('small',[_v("["),_c('span',[_c('strong',[_v("Powered by")])]),_v(" "),_c('img',{attrs:{"src":"https://markbind.org/favicon.ico","width":"30"}}),_v(" "),_c('a',{attrs:{"href":"https://markbind.org/"}},[_v("MarkBind 5.1.0")]),_v(", generated on Sun, 3 Dec 2023, 21:31:05 GMT+8]")])])])}
 }];
   
